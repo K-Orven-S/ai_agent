@@ -32,7 +32,6 @@ def main():
         print(response.text)
     else:
         print(response.text)
-        print(messages)
         
 
 
