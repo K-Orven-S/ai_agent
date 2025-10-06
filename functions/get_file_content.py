@@ -1,5 +1,8 @@
 import os
 from .config import MAX_CHARS
+from google.genai import types
+from dotenv import load_dotenv
+from google import genai
 
 def get_file_content(working_directory, file_path):
   try:
@@ -20,3 +23,17 @@ def get_file_content(working_directory, file_path):
       
   except Exception as e:
     return f"Error: {str(e)}"
+
+schema_get_file_content = types.FunctionDeclaration(
+    name="get_file_content",
+    description="Reads and returns the contents of the specified file within the working directory, truncating if it exceeds MAX_CHARS.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="Relative path to the file within the working directory to read from.",
+            ),
+        },
+    ),
+)

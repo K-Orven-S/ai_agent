@@ -1,5 +1,8 @@
 import subprocess
 import os
+from google.genai import types
+from dotenv import load_dotenv
+from google import genai
 
 def run_python_file(working_directory, file_path, args=[]):
   try:
@@ -24,6 +27,25 @@ def run_python_file(working_directory, file_path, args=[]):
         return f'{output}\n Process exited with code {result.returncode}'
   except Exception as e:
     return f"Error: executing Python file: {e}"
+
+schema_run_python_file = types.FunctionDeclaration(
+    name="run_python_file",
+    description="Executes a Python file within the working directory using subprocess, passing optional arguments, enforcing a 30-second timeout, capturing stdout and stderr, and returning results or errors.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="Relative path to the Python file within the working directory to execute.",
+            ),
+            "args": types.Schema(
+                type=types.Type.ARRAY,
+                items=types.Schema(type=types.Type.STRING),
+                description="Optional list of command-line arguments to pass to the Python file.",
+            ),
+        },
+    ),
+)
       
       
     

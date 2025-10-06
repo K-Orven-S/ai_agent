@@ -1,4 +1,7 @@
 import os
+from google.genai import types
+from dotenv import load_dotenv
+from google import genai
 
 def write_file(working_directory, file_path, content):
   try:
@@ -12,3 +15,21 @@ def write_file(working_directory, file_path, content):
       return f'Successfully wrote to "{full_path}" ({len(content)} characters written)'
   except Exception as e:
           return f"Error: {str(e)}"
+
+schema_write_file = types.FunctionDeclaration(
+    name="write_file",
+    description="Creates or overwrites the specified file within the working directory with the provided content, ensuring the path is valid and parent directories exist.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="Relative path of the file to create or overwrite within the working directory.",
+            ),
+            "content": types.Schema(
+                type=types.Type.STRING,
+                description="The text content to write into the file.",
+            ),
+        },
+    ),
+)
